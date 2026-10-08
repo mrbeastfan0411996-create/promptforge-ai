@@ -1,9 +1,24 @@
 # Contributing
 
-1. Fork the repository.
-2. Create a focused branch.
-3. Keep the project dependency-light and privacy-first.
-4. Test the UI in a current Chromium/Firefox browser.
-5. Explain behavior changes in the pull request.
+Thanks for contributing to PromptForge AI.
 
-Avoid committing secrets, generated build artifacts, or unrelated formatting changes.
+## Development
+
+```bash
+npm install
+npm run check
+npm test
+npm run build
+```
+
+## Pull requests
+
+- Keep changes focused.
+- Add or update tests for evaluator behavior.
+- Do not add API keys or secrets.
+- Document user-visible behavior changes.
+- Prefer small, reviewable commits.
+
+## Code style
+
+Use TypeScript strict mode. Keep pure logic in `src/lib` where practical and avoid coupling evaluation logic to UI components.

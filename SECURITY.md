@@ -1,7 +1,15 @@
 # Security Policy
 
-PromptForge currently runs entirely in the browser. It does not request, transmit, or store provider API keys.
+## Supported version
 
-If an AI provider integration is added, credentials must be handled server-side or through a secure user-managed secret mechanism. Do not place private API keys in client-side JavaScript or Vite environment variables exposed to the browser.
+The `main` branch is the supported development version.
 
-Please report suspected security issues privately to the repository maintainer rather than opening a public issue with exploit details.
+## Reporting a vulnerability
+
+Please do not publish sensitive vulnerability details in a public issue. Contact the repository maintainer privately through the GitHub profile associated with this project.
+
+Never include API keys, passwords, access tokens or personal data in bug reports.
+
+## Data handling
+
+The core application does not send prompt content to a server. Saved prompts use browser LocalStorage. Future provider integrations must document what data is transmitted before enabling them.

@@ -1,38 +1,52 @@
 # PromptForge AI
 
-PromptForge is a privacy-first prompt engineering workbench for designing, evaluating and exporting production-ready AI instructions.
+> Open-source prompt engineering workbench for designing, evaluating, saving and exporting production-ready AI instructions.
 
-![Status](https://img.shields.io/badge/status-active-7c5cff)
-![License](https://img.shields.io/badge/license-MIT-green)
-![TypeScript](https://img.shields.io/badge/TypeScript-React-blue)
+[![CI](https://github.com/YOUR_USERNAME/promptforge-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USERNAME/promptforge-ai/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ## Why this project exists
 
-Prompt quality is often treated as a matter of trial and error. PromptForge makes the process explicit: compose a structured instruction, run a transparent deterministic quality check, reuse templates, and export a portable prompt record.
+Prompt quality is often treated as trial and error. PromptForge turns common prompt-engineering practices into a repeatable workflow:
+
+1. Draft a structured instruction.
+2. Evaluate observable components.
+3. Iterate using explicit feedback.
+4. Save reusable prompts locally.
+5. Export a portable JSON record.
+
+The evaluator is deliberately deterministic. It is a heuristic quality checklist, not a claim that a prompt can be assigned an objective "AI quality score."
 
 ## Features
 
-- **Prompt Playground** — focused editor with word/character metrics.
-- **Deterministic Evaluator** — checks six observable prompt components: role, goal, context, constraints, output format and quality criteria.
-- **Reusable Templates** — marketing, research, engineering and product workflows.
-- **Portable Export** — export a JSON prompt record for versioning or downstream workflows.
-- **Privacy-first local mode** — no server, telemetry or API key required for the core workbench.
-- **Responsive UI** — desktop and mobile layouts.
-- **CI build check** — GitHub Actions verifies that the application builds.
-- **Provider-agnostic architecture** — the UI does not lock the project to one AI vendor.
+- Prompt Playground with live character and word metrics
+- Six-component deterministic evaluator: role, goal, context, constraints, output, criteria
+- Curated templates for marketing, research, engineering and product work
+- Local saved-prompt library
+- Portable `promptforge.prompt.v2` JSON export
+- Provider-neutral core architecture
+- Local-first privacy model; no API key required
+- Responsive desktop/mobile UI
+- Automated unit tests
+- GitHub Actions CI
+- GitHub Pages deployment workflow
 
 ## Tech stack
 
-React + TypeScript + Vite + Lucide Icons + CSS.
+- React 18
+- TypeScript
+- Vite
+- Vitest
+- Lucide React
+- CSS
+- Browser LocalStorage
 
-## Run locally
+## Local development
 
 ```bash
 npm install
 npm run dev
 ```
-
-Then open the local Vite URL shown in your terminal.
 
 Production build:
 
@@ -40,44 +54,70 @@ Production build:
 npm run build
 ```
 
+Tests:
+
+```bash
+npm test
+```
+
+Type check:
+
+```bash
+npm run check
+```
+
 ## Architecture
 
 ```text
 src/
-  main.tsx       # application, prompt state, templates and evaluator
-  styles.css     # responsive design system
-public/          # static assets
-.github/
-  workflows/    # CI build validation
-```
+├── data/
+│   └── templates.ts       # curated prompt templates
+├── lib/
+│   └── evaluator.ts       # pure evaluation + export logic
+├── main.tsx               # application state and UI
+└── styles.css             # responsive design system
 
-The current version deliberately keeps AI execution out of the browser. If a model provider is added later, API credentials should be handled by a server-side adapter rather than shipped in client code.
+tests/
+└── evaluator.test.ts       # evaluator unit tests
+
+.github/workflows/
+├── ci.yml                  # typecheck + tests + build
+└── deploy.yml              # GitHub Pages deployment
+```
 
 ## Evaluation methodology
 
-The evaluator is intentionally transparent. It uses deterministic regular-expression checks rather than claiming that a heuristic score represents actual model quality. A future version can add model-based evaluation as an optional, clearly labeled layer.
+The evaluator checks six observable components. Each component has a fixed maximum weight:
 
-## Security principles
+| Component | Weight |
+|---|---:|
+| Role | 16 |
+| Goal | 20 |
+| Context | 16 |
+| Constraints | 16 |
+| Output | 16 |
+| Criteria | 16 |
 
-- Never commit API keys or secrets.
-- Keep provider credentials server-side.
-- Treat model output as untrusted data.
-- Log only what is necessary for debugging.
-- Make external AI calls opt-in and visible to the user.
+Signals are detected with transparent regular-expression rules. The implementation intentionally avoids calling an external model for scoring, making the result reproducible and inspectable.
+
+## Privacy
+
+Core functionality runs in the browser. Prompts are stored in LocalStorage and are not transmitted by this application. If an external AI provider is added in a future release, that integration should be explicit and documented separately.
 
 ## Roadmap
 
-- [ ] Server-side provider adapters (OpenAI-compatible, Gemini-compatible and local models)
-- [ ] Prompt version history
-- [ ] Side-by-side model evaluation
-- [ ] JSON Schema based prompt packs
-- [ ] Optional local embeddings/search
-- [ ] Automated prompt regression tests
+- [ ] OpenAI-compatible provider adapter
+- [ ] Gemini-compatible provider adapter
+- [ ] Local Ollama adapter
+- [ ] Prompt version history and diffs
+- [ ] Evaluation benchmark datasets
+- [ ] Import/export of template packs
+- [ ] Accessibility audit and keyboard-first navigation
 
-## Contribution
+## Responsible use
 
-Issues and pull requests are welcome. Keep changes focused, documented and reproducible.
+PromptForge is a developer tool. It does not guarantee that a prompt will produce correct, safe or reliable model output. Model outputs should be validated according to the risk of the application.
 
 ## License
 
-MIT
+MIT — see [LICENSE](LICENSE).
